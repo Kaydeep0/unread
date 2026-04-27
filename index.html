@@ -133,28 +133,70 @@
     }
     .hero-grain-1 {
       position: absolute; inset: 0; pointer-events: none; z-index: 5;
-      opacity: 0.95; mix-blend-mode: overlay;
+      opacity: 1.0; mix-blend-mode: overlay;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='hg1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hg1)'/%3E%3C/svg%3E");
       background-size: 140px 140px;
     }
     .hero-grain-2 {
       position: absolute; inset: 0; pointer-events: none; z-index: 5;
-      opacity: 0.75; mix-blend-mode: multiply;
+      opacity: 0.95; mix-blend-mode: multiply;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='hg2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hg2)'/%3E%3C/svg%3E");
       background-size: 240px 240px;
     }
     .hero-grain-3 {
       position: absolute; inset: 0; pointer-events: none; z-index: 5;
-      opacity: 0.55; mix-blend-mode: soft-light;
+      opacity: 0.85; mix-blend-mode: soft-light;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='hg3'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.3' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hg3)'/%3E%3C/svg%3E");
       background-size: 440px 440px;
     }
     .hero-grain-4 {
       position: absolute; inset: 0; pointer-events: none; z-index: 5;
-      opacity: 0.5; mix-blend-mode: hard-light;
+      opacity: 0.8; mix-blend-mode: hard-light;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='hg4'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hg4)'/%3E%3C/svg%3E");
       background-size: 90px 90px;
     }
+
+    .hero-laser-2 {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden;
+    }
+    .hero-laser-2::before {
+      content: ''; position: absolute; top: 18%; left: -10%; width: 120%; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,26,46,0.0) 15%, rgba(255,26,46,0.35) 40%, rgba(255,90,110,0.65) 55%, rgba(255,26,46,0.3) 72%, transparent 95%);
+      transform: rotate(-4deg);
+      box-shadow: 0 0 4px rgba(255,26,46,0.6), 0 0 16px rgba(255,26,46,0.3);
+      filter: blur(0.4px);
+    }
+    .hero-laser-2::after {
+      content: ''; position: absolute; top: 52%; left: -5%; width: 110%; height: 3px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,20,40,0.0) 8%, rgba(255,20,40,0.45) 28%, rgba(255,60,80,0.9) 48%, rgba(255,20,40,0.5) 68%, rgba(255,20,40,0.0) 90%, transparent 100%);
+      transform: rotate(-6deg);
+      box-shadow: 0 0 10px rgba(255,26,46,0.9), 0 0 30px rgba(255,26,46,0.5), 0 0 70px rgba(255,26,46,0.25);
+      filter: blur(0.6px);
+    }
+    .hero-laser-3 {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden;
+    }
+    .hero-laser-3::before {
+      content: ''; position: absolute; top: 78%; left: -10%; width: 120%; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,26,46,0.0) 20%, rgba(255,26,46,0.3) 45%, rgba(255,70,90,0.55) 58%, rgba(255,26,46,0.25) 75%, transparent 95%);
+      transform: rotate(-15deg);
+      box-shadow: 0 0 5px rgba(255,26,46,0.5), 0 0 18px rgba(255,26,46,0.25);
+      filter: blur(0.4px);
+    }
+    .hero-laser-3::after {
+      content: ''; position: absolute; top: 43%; left: -8%; width: 115%; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(200,10,30,0.0) 12%, rgba(200,10,30,0.25) 38%, rgba(255,40,60,0.5) 52%, rgba(200,10,30,0.2) 70%, transparent 92%);
+      transform: rotate(-3deg);
+      box-shadow: 0 0 4px rgba(255,26,46,0.4), 0 0 14px rgba(255,26,46,0.2);
+      filter: blur(0.3px);
+    }
+    .hero-grain-5 {
+      position: absolute; inset: 0; pointer-events: none; z-index: 5;
+      opacity: 0.9; mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='hg5'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hg5)'/%3E%3C/svg%3E");
+      background-size: 60px 60px;
+    }
+
     .hero::after {
       content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 6;
       background: radial-gradient(ellipse at center, transparent 18%, rgba(5, 3, 2, 0.55) 70%, rgba(5, 3, 2, 0.94) 100%);
@@ -373,6 +415,24 @@
         50% { transform: translateX(-4%); opacity: 1; }
       }
       .hero-laser::before { animation: laser-flicker 6s ease-in-out infinite; }
+
+      .hero-laser-2::before { animation: laser-flicker-3 7s ease-in-out infinite; }
+      .hero-laser-2::after  { animation: laser-flicker-4 5s ease-in-out infinite; }
+      .hero-laser-3::before { animation: laser-flicker-5 9s ease-in-out infinite; }
+      .hero-laser-3::after  { animation: laser-flicker-6 11s ease-in-out infinite; }
+      @keyframes laser-flicker-3 {
+        0%, 82%, 86%, 100% { opacity: 1; } 84% { opacity: 0.3; }
+      }
+      @keyframes laser-flicker-4 {
+        0%, 60%, 63%, 100% { opacity: 0.9; } 61.5% { opacity: 0.2; }
+      }
+      @keyframes laser-flicker-5 {
+        0%, 70%, 74%, 100% { opacity: 0.85; } 72% { opacity: 0.4; }
+      }
+      @keyframes laser-flicker-6 {
+        0%, 45%, 48%, 100% { opacity: 0.7; } 46.5% { opacity: 0.15; }
+      }
+
       .hero-laser::after { animation: laser-flicker-2 8s ease-in-out infinite; }
       @keyframes laser-flicker {
         0%, 88%, 92%, 100% { opacity: 1; }
@@ -427,6 +487,9 @@
     <div class="hero-grain-2"></div>
     <div class="hero-grain-3"></div>
     <div class="hero-grain-4"></div>
+    <div class="hero-grain-5"></div>
+    <div class="hero-laser-2"></div>
+    <div class="hero-laser-3"></div>
     <div class="hero-content">
       <h1 class="wordmark">unread</h1>
       <p class="hero-tag">a monthly night in san francisco</p>
