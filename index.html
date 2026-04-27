@@ -189,7 +189,7 @@
     transform: translateX(-50%);
     transition: transform 1.4s cubic-bezier(.2,.7,.2,1), opacity 0.5s ease, visibility 0.5s;
     will-change: transform;
-    z-index: 6;
+    z-index: 12;
     pointer-events: none;
     mix-blend-mode: screen;
     opacity: 0;
@@ -240,6 +240,24 @@
   }
   .lasers-down__beam:nth-child(1) { transform: rotate(-32deg); }
   .lasers-down__beam:nth-child(2) { transform: rotate(32deg); }
+
+  @media (max-width: 767px) {
+    .lasers-down.lasers-down--visible {
+      opacity: 0.4;
+    }
+    .lasers-down__beam {
+      width: 2px;
+      filter: blur(0.25px);
+    }
+    .lasers-down__beam::after {
+      width: 9px;
+      left: -4px;
+      filter: blur(1.25px);
+    }
+  }
+  @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .lasers-down.lasers-down--visible { opacity: 0.28; }
+  }
 
   /* fog */
   .hero__fog {
@@ -378,7 +396,7 @@
     .hero__fog::before,
     .hero__fog::after,
     .hero__fog-mid { animation: none !important; }
-    .lasers-down.lasers-down--visible { opacity: 0.12; }
+    .lasers-down.lasers-down--visible { opacity: 0.2; }
   }
 
   /* =========================================================
@@ -1420,39 +1438,10 @@
       backdrop-filter: blur(4px);
     }
 
-    /* BRIDGE */
-    .bridge {
-      min-height: 100svh; padding: 80px 20px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; position: relative;
-      overflow: hidden; gap: 28px;
-    }
-    .bridge-bg {
-      position: absolute; inset: -10%; z-index: 0;
-      background:
-        radial-gradient(circle at center, rgba(200, 16, 46, 0.35) 0%, rgba(110, 13, 30, 0.18) 30%, rgba(46, 5, 9, 0.08) 60%, transparent 100%),
-        linear-gradient(180deg, #15050A 0%, #050302 100%);
-      filter: blur(4px);
-    }
-    .bridge-content { position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 28px; }
-    .bridge-text {
-      font-family: var(--serif); font-weight: 300; font-style: italic;
-      font-size: clamp(28px, 7vw, 52px); line-height: 1.2;
-      color: var(--cream); letter-spacing: -0.01em; max-width: 18ch;
-      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
-    }
-    .bridge-cta-text {
-      font-family: var(--serif); font-weight: 300;
-      font-size: clamp(17px, 4.5vw, 26px); line-height: 1.4;
-      color: var(--cream-dim); max-width: 26ch;
-      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
-    }
-
     /* TICKETS */
     .tickets-section {
       min-height: 100svh; padding: 80px 20px;
-      position: relative; overflow: hidden;
+      position: relative; overflow: visible;
       display: flex; align-items: center; justify-content: center;
     }
     .tickets-bg {
@@ -1518,7 +1507,8 @@
       height: auto;
       display: block;
       border-radius: 8px;
-      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.55);
+      opacity: 0.22;
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.42);
     }
 
     @media (max-width: 767px) {
@@ -1583,7 +1573,6 @@
       .act { padding: 140px 32px; }
       .interlude { padding: 100px 24px; }
       .interlude-content { gap: 48px; padding: 0; }
-      .bridge { padding: 100px 24px; gap: 32px; }
       .tickets-section { padding: 100px 24px; }
       .ticket-tier { padding: 32px 8px; }
       .ticket-tier-row { gap: 16px; }
@@ -1592,7 +1581,60 @@
       .ticket-tier-desc { font-size: 15px; }
       .reserve-btn { font-size: 22px; padding: 22px 64px; }
       .tickets-fineprint { font-size: 11px; }
-      .tickets-art { max-width: 280px; width: 78%; }
+      .tickets.tickets--conversion {
+        max-width: 920px;
+      }
+      .tickets--conversion {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(200px, 300px);
+        gap: 28px 48px;
+        align-items: start;
+        text-align: left;
+        max-width: 920px;
+        margin-inline: auto;
+      }
+      .tickets--conversion .tickets-head {
+        grid-column: 1;
+        grid-row: 1;
+        text-align: left;
+      }
+      .tickets--conversion .tickets-venue {
+        grid-column: 1;
+        grid-row: 2;
+      }
+      .tickets--conversion .tickets-art {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        justify-self: end;
+        margin: 0;
+        width: 100%;
+        max-width: 280px;
+      }
+      .tickets--conversion .tickets-art__img {
+        width: 100%;
+        margin: 0;
+        transform: none;
+      }
+      .tickets--conversion .venue-line,
+      .tickets--conversion .venue-line-sub {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 38ch;
+      }
+      .tickets--conversion .cta-stack {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        width: 100%;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .tickets--conversion .tickets-fineprint {
+        grid-column: 1 / -1;
+        grid-row: 4;
+        text-align: center;
+        margin-top: 0;
+      }
       footer { padding: 80px 24px 64px; }
       .social-links { gap: 40px; margin-bottom: 16px; }
       .social-links a { font-size: 11px; }
@@ -1740,16 +1782,6 @@
     </div>
   </section>
 
-  <section class="bridge" id="bridge">
-    <div class="bridge-bg"></div>
-    <div class="grain-fine"></div>
-    <div class="grain-coarse"></div>
-    <div class="bridge-content">
-      <p class="bridge-text">once a month.<br>in real life.</p>
-      <p class="bridge-cta-text">if it sounds like you, come.</p>
-    </div>
-  </section>
-
   <section class="tickets-section">
     <div class="tickets-bg"></div>
     <div class="grain-fine"></div>
@@ -1876,6 +1908,10 @@
       updateLasersDownVisibility();
       scheduleLaserDocHeight();
     }, { passive: true });
+    window.addEventListener('touchstart', function () {
+      setLaserDocHeight();
+      updateLasersDownVisibility();
+    }, { passive: true, once: true });
     updateLasersDownVisibility();
   })();
 </script>
