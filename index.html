@@ -1462,14 +1462,6 @@
       color: rgba(242, 237, 227, 0.55);
     }
     .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-    .cta-subrow {
-      display: flex;
-      flex-flow: row wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 10px 14px;
-      width: 100%;
-    }
     .share-event-btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 11px 24px;
@@ -1595,17 +1587,13 @@
         line-height: 1.25;
         text-align: center;
       }
-      .cta-subrow .share-event-btn {
+      .tickets--conversion .cta-stack > .share-event-btn {
         width: 100%;
         max-width: none;
         justify-content: center;
         min-height: 48px;
         box-sizing: border-box;
         padding-block: 14px;
-      }
-      .cta-subrow {
-        flex-direction: column;
-        align-items: stretch;
       }
       .act-cta-row {
         width: 100%;
@@ -1897,10 +1885,7 @@
 
       <div class="cta-stack">
         <a href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list" class="reserve-btn">join the list</a>
-        <div class="cta-subrow">
         <button type="button" class="share-event-btn" onclick="shareEvent(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share the night</span></button>
-        <a class="share-event-btn" href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list"><span>join the waitlist</span></a>
-        </div>
       </div>
 
       <p class="tickets-fineprint">the address goes out 48 hours before doors. tickets open one week before that. the list opens now.</p>
