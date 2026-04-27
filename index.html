@@ -109,10 +109,9 @@
     isolation: isolate;
   }
 
-  /* lasers convergence anchor (hero + closing / conversion slide) */
-  .hero__lasers,
-  .tickets__lasers {
-    position: absolute;
+  /* one laser origin — fixed to viewport so beams read continuous through the whole scroll */
+  .site-lasers {
+    position: fixed;
     top: -2vh;
     left: 50%;
     width: 1px;
@@ -120,17 +119,16 @@
     transform: translateX(-50%);
     transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
     will-change: transform;
-    z-index: 1;
-  }
-  .tickets__lasers {
-    top: 0;
+    z-index: 8;
     pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.32;
   }
   .laser {
     position: absolute;
     top: 0; left: 0;
     width: 1.5px;
-    height: 130vh;
+    height: min(620vh, 9600px);
     transform-origin: top center;
     background: linear-gradient(
       to bottom,
@@ -158,8 +156,7 @@
     );
     filter: blur(2px);
   }
-  .hero__lasers::before,
-  .tickets__lasers::before {
+  .site-lasers::before {
     content: '';
     position: absolute;
     top: -8px; left: -50px;
@@ -321,6 +318,7 @@
     .hero__fog::before,
     .hero__fog::after,
     .hero__fog-mid { animation: none !important; }
+    .site-lasers { opacity: 0.14; }
   }
 
   /* =========================================================
@@ -1394,7 +1392,7 @@
     /* TICKETS */
     .tickets-section {
       min-height: 100svh; padding: 80px 20px;
-      position: relative; overflow: hidden;
+      position: relative; overflow: visible;
       display: flex; align-items: center; justify-content: center;
     }
     .tickets-bg {
@@ -1451,16 +1449,22 @@
 
     .tickets--conversion .tickets-head { margin-bottom: 0; }
     .tickets-art {
-      margin: 8px auto 0;
-      max-width: 240px;
-      width: 72%;
+      margin: 16px 0 0 auto;
+      width: min(94vw, 440px);
+      max-width: 440px;
+      align-self: flex-end;
+      margin-right: clamp(-8px, -2vw, 0px);
     }
     .tickets-art__img {
-      width: 100%;
+      width: 115%;
+      max-width: none;
       height: auto;
       display: block;
-      border-radius: 8px;
-      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.55);
+      margin-left: auto;
+      transform: translateX(8%);
+      border-radius: 10px;
+      opacity: 0.36;
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.4);
     }
 
     @media (max-width: 767px) {
@@ -1478,7 +1482,15 @@
         align-items: stretch;
         gap: 14px;
       }
-      .tickets-art { order: 3; margin-top: 0; max-width: min(240px, 58vw); }
+      .tickets-art {
+        order: 3;
+        margin-top: 0;
+        width: min(98vw, 420px);
+        max-width: none;
+        margin-right: -3vw;
+        align-self: flex-end;
+      }
+      .tickets-art__img { width: 122%; transform: translateX(6%); opacity: 0.34; }
       .tickets-venue { order: 4; }
       .tickets-fineprint { order: 5; margin-top: 0; }
       .tickets--conversion .venue-line-sub { margin-bottom: 0; }
@@ -1534,7 +1546,8 @@
       .ticket-tier-desc { font-size: 15px; }
       .reserve-btn { font-size: 22px; padding: 22px 64px; }
       .tickets-fineprint { font-size: 11px; }
-      .tickets-art { max-width: 280px; width: 78%; }
+      .tickets-art { width: min(90vw, 480px); max-width: 480px; margin-right: clamp(-16px, -2vw, 0px); }
+      .tickets-art__img { width: 110%; transform: translateX(10%); opacity: 0.34; }
       footer { padding: 80px 24px 64px; }
       .social-links { gap: 40px; margin-bottom: 16px; }
       .social-links a { font-size: 11px; }
@@ -1551,14 +1564,15 @@
     <span class="topbar-meta">round 01</span>
   </nav>
 
+  <div class="site-lasers" id="lasers" aria-hidden="true">
+    <div class="laser"></div>
+    <div class="laser"></div>
+    <div class="laser"></div>
+    <div class="laser"></div>
+    <div class="laser"></div>
+  </div>
+
   <section class="hero" aria-label="unread">
-    <div class="hero__lasers" id="lasers">
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-    </div>
     <div class="hero__fog"></div>
     <div class="hero__fog-mid"></div>
     <div class="hero__grain"></div>
@@ -1689,13 +1703,6 @@
 
   <section class="tickets-section">
     <div class="tickets-bg"></div>
-    <div class="tickets__lasers" id="tickets-lasers" aria-hidden="true">
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-    </div>
     <div class="grain-fine"></div>
     <div class="grain-coarse"></div>
     <div class="tickets tickets--conversion">
@@ -1740,10 +1747,7 @@
 
 <script>
   (function () {
-    var laserRoots = [
-      document.getElementById('lasers'),
-      document.getElementById('tickets-lasers')
-    ].filter(Boolean);
+    var laserRoots = [document.getElementById('lasers')].filter(Boolean);
     if (!laserRoots.length) return;
     var targetX = 0, targetY = 0, currentX = 0, currentY = 0;
     window.addEventListener('mousemove', function (e) {
