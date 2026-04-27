@@ -1441,7 +1441,26 @@
     .share-btn:hover { border-color: rgba(242,237,227,0.5); color: rgba(242,237,227,0.9); }
     .share-btn.copied { border-color: rgba(242,237,227,0.4); color: rgba(242,237,227,0.8); }
     .share-btn svg { flex-shrink: 0; }
+    .act-cta-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 14px;
+      margin-top: 16px;
+    }
+    .act-cta-row .share-btn { margin-top: 0; }
+    a.share-event-btn { text-decoration: none; color: inherit; }
     .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .cta-subrow {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 14px;
+      width: 100%;
+    }
     .share-event-btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 11px 24px;
@@ -1565,13 +1584,17 @@
         line-height: 1.25;
         text-align: center;
       }
-      .share-event-btn {
+      .cta-subrow .share-event-btn {
         width: 100%;
         max-width: none;
         justify-content: center;
         min-height: 48px;
         box-sizing: border-box;
         padding-block: 14px;
+      }
+      .cta-subrow {
+        flex-direction: column;
+        align-items: stretch;
       }
     }
 
@@ -1764,7 +1787,10 @@
       <div class="act-number">act one</div>
       <h2 class="act-title">getting ready <span class="act-accent">alone</span></h2>
       <iframe class="spotify-embed" style="height: 380px;" src="https://open.spotify.com/embed/playlist/2L9GXLbsA9EvV7BSsza9P2?utm_source=generator&theme=0" frameborder="0" allowfullscreen="" allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      <button class="share-btn" onclick="sharePlaylist('2L9GXLbsA9EvV7BSsza9P2','Act 1 — getting ready alone',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <div class="act-cta-row">
+      <button type="button" class="share-btn" onclick="sharePlaylist('2L9GXLbsA9EvV7BSsza9P2','Act 1 — getting ready alone',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <a class="share-event-btn" href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list"><span>join the waitlist</span></a>
+      </div>
     </div>
   </section>
 
@@ -1777,7 +1803,10 @@
       <div class="act-number">act two</div>
       <h2 class="act-title">drunk in the <span class="act-accent">bathroom</span></h2>
       <iframe class="spotify-embed" style="height: 380px;" src="https://open.spotify.com/embed/playlist/2KpZx9ZXVbEjUPSPapyMM2?utm_source=generator&theme=0" frameborder="0" allowfullscreen="" allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      <button class="share-btn" onclick="sharePlaylist('2KpZx9ZXVbEjUPSPapyMM2','Act 2 — drunk in the bathroom',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <div class="act-cta-row">
+      <button type="button" class="share-btn" onclick="sharePlaylist('2KpZx9ZXVbEjUPSPapyMM2','Act 2 — drunk in the bathroom',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <a class="share-event-btn" href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list"><span>join the waitlist</span></a>
+      </div>
     </div>
   </section>
 
@@ -1790,7 +1819,10 @@
       <div class="act-number">act three</div>
       <h2 class="act-title">pink pony <span class="act-accent">hour</span></h2>
       <iframe class="spotify-embed" style="height: 380px;" src="https://open.spotify.com/embed/playlist/4WWSES9FvRazPvwe7P8uw4?utm_source=generator&theme=0" frameborder="0" allowfullscreen="" allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      <button class="share-btn" onclick="sharePlaylist('4WWSES9FvRazPvwe7P8uw4','Act 3 — pink pony hour',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <div class="act-cta-row">
+      <button type="button" class="share-btn" onclick="sharePlaylist('4WWSES9FvRazPvwe7P8uw4','Act 3 — pink pony hour',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <a class="share-event-btn" href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list"><span>join the waitlist</span></a>
+      </div>
     </div>
   </section>
 
@@ -1803,7 +1835,10 @@
       <div class="act-number">act four</div>
       <h2 class="act-title">the kitchen at <span class="act-accent">2am</span></h2>
       <iframe class="spotify-embed" style="height: 380px;" src="https://open.spotify.com/embed/playlist/6tdqBxVSnKPMJJlqfv7RyL?utm_source=generator&theme=0" frameborder="0" allowfullscreen="" allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      <button class="share-btn" onclick="sharePlaylist('6tdqBxVSnKPMJJlqfv7RyL','Act 4 — the kitchen at 2am',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <div class="act-cta-row">
+      <button type="button" class="share-btn" onclick="sharePlaylist('6tdqBxVSnKPMJJlqfv7RyL','Act 4 — the kitchen at 2am',this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share this act</span></button>
+      <a class="share-event-btn" href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list"><span>join the waitlist</span></a>
+      </div>
     </div>
   </section>
 
@@ -1829,7 +1864,10 @@
 
       <div class="cta-stack">
         <a href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list" class="reserve-btn">join the list</a>
+        <div class="cta-subrow">
         <button type="button" class="share-event-btn" onclick="shareEvent(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share the night</span></button>
+        <a class="share-event-btn" href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list"><span>join the waitlist</span></a>
+        </div>
       </div>
 
       <p class="tickets-fineprint">the address goes out 48 hours before doors. tickets open one week before that. the list opens now.</p>
