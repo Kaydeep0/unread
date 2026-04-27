@@ -269,9 +269,9 @@
     .share-btn:hover { border-color: rgba(242,237,227,0.5); color: rgba(242,237,227,0.9); }
     .share-btn.copied { border-color: rgba(242,237,227,0.4); color: rgba(242,237,227,0.8); }
     .share-btn svg { flex-shrink: 0; }
+    .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 16px; }
     .share-event-btn {
       display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 12px;
       padding: 11px 24px;
       background: transparent;
       border: 1px solid rgba(242,237,227,0.2);
@@ -554,8 +554,10 @@
       <p class="venue-line">the room we want is <em>linden room</em>, hayes valley.</p>
       <p class="venue-line-sub">we're in conversation. nothing's signed yet.</p>
 
-      <a href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list" class="reserve-btn">join the list</a>
-      <button class="share-event-btn" onclick="shareEvent(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share the night</span></button>
+      <div class="cta-stack">
+        <a href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list" class="reserve-btn">join the list</a>
+        <button class="share-event-btn" onclick="shareEvent(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share the night</span></button>
+      </div>
 
       <p class="tickets-fineprint">the address goes out 48 hours before doors. tickets open one week before that. the list opens now.</p>
     </div>
