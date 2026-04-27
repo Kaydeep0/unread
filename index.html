@@ -248,11 +248,36 @@
     .lasers-down__beam {
       width: 2px;
       filter: blur(0.25px);
+      /* iOS often short-changes scrollHeight; long vh/svh floor + tail keeps glow near the footer */
+      height: max(var(--laser-doc-h), 520vh, 520dvh, 520svh, 16000px);
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 3%,
+        rgba(255, 26, 46, 0.44) 8%,
+        rgba(255, 26, 46, 0.28) 16%,
+        rgba(200, 16, 46, 0.14) 38%,
+        rgba(200, 16, 46, 0.065) 58%,
+        rgba(200, 16, 46, 0.03) 78%,
+        rgba(200, 16, 46, 0.014) 90%,
+        rgba(200, 16, 46, 0.006) 96%,
+        transparent 100%
+      );
     }
     .lasers-down__beam::after {
       width: 9px;
       left: -4px;
       filter: blur(1.25px);
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 4%,
+        rgba(255, 26, 46, 0.18) 11%,
+        rgba(200, 16, 46, 0.08) 32%,
+        rgba(200, 16, 46, 0.035) 62%,
+        rgba(200, 16, 46, 0.012) 88%,
+        transparent 100%
+      );
     }
   }
   @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
@@ -1831,13 +1856,15 @@
     function setLaserDocHeight() {
       var el = document.documentElement;
       var b = document.body;
-      var sh = el.scrollHeight;
-      if (b) sh = Math.max(sh, b.scrollHeight);
-      var inner = window.innerHeight || 0;
+      var sh = Math.max(el.scrollHeight, b ? b.scrollHeight : 0);
+      var inner = window.innerHeight || el.clientHeight || 0;
       var vv = window.visualViewport && window.visualViewport.height;
       var vh = Math.max(inner, vv || 0);
-      // generous floor + ~1/cos(32°) so angled beams still read to the footer on long mobile scrolls
-      var h = Math.ceil(Math.max(sh, vh * 2.5) * 1.22);
+      var narrow = window.innerWidth <= 767;
+      // Narrow viewports: taller floor + higher multiplier (Safari scrollHeight + angled beams)
+      var span = narrow ? Math.max(sh, vh * 4.25) : Math.max(sh, vh * 2.5);
+      var mult = narrow ? 1.42 : 1.22;
+      var h = Math.ceil(span * mult);
       el.style.setProperty('--laser-doc-h', h + 'px');
     }
 
@@ -1895,6 +1922,9 @@
       requestAnimationFrame(function () {
         setLaserDocHeight();
         requestAnimationFrame(setLaserDocHeight);
+      });
+      [350, 900, 2000].forEach(function (ms) {
+        setTimeout(setLaserDocHeight, ms);
       });
     }, { passive: true });
     window.addEventListener('orientationchange', scheduleLaserDocHeight, { passive: true });
