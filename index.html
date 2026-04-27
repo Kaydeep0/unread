@@ -595,7 +595,7 @@ function sharePlaylist(id, title, btn) {
 }
 function shareEvent(btn) {
   var url = window.location.href;
-  var data = { title: 'unread — round 01', text: 'may 16. san francisco. a night for women who got dressed up for each other.', url: url };
+  var data = { title: 'unread — round 01', url: url };
   if (navigator.share) {
     navigator.share(data).catch(function(){});
   } else {
