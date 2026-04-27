@@ -242,8 +242,12 @@
   .lasers-down__beam:nth-child(2) { transform: rotate(32deg); }
 
   @media (max-width: 767px) {
+    .lasers-down {
+      z-index: 35;
+      mix-blend-mode: normal;
+    }
     .lasers-down.lasers-down--visible {
-      opacity: 0.4;
+      opacity: 0.55;
     }
     .lasers-down__beam {
       width: 2px;
@@ -1449,9 +1453,14 @@
       justify-content: center;
       gap: 10px 14px;
       margin-top: 16px;
+      position: relative;
+      z-index: 2;
     }
     .act-cta-row .share-btn { margin-top: 0; }
-    a.share-event-btn { text-decoration: none; color: inherit; }
+    a.share-event-btn {
+      text-decoration: none;
+      color: rgba(242, 237, 227, 0.55);
+    }
     .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 16px; }
     .cta-subrow {
       display: flex;
@@ -1480,6 +1489,8 @@
       width: 100%; max-width: 480px; border: 0;
       border-radius: 12px; background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(4px);
+      position: relative;
+      z-index: 1;
     }
 
     /* TICKETS */
@@ -1595,6 +1606,28 @@
       .cta-subrow {
         flex-direction: column;
         align-items: stretch;
+      }
+      .act-cta-row {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 2px;
+        box-sizing: border-box;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .act-cta-row .share-btn,
+      .act-cta-row a.share-event-btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+        box-sizing: border-box;
+        padding-block: 12px;
+      }
+      .act-cta-row a.share-event-btn {
+        display: inline-flex;
+        color: rgba(242, 237, 227, 0.68);
+        border-color: rgba(242, 237, 227, 0.28);
       }
     }
 
@@ -1920,7 +1953,10 @@
       var down = document.getElementById('lasers-down');
       if (!actOne || !down) return;
       var r = actOne.getBoundingClientRect();
-      var show = r.top < window.innerHeight * 0.92;
+      var vv = window.visualViewport;
+      var vh = (vv && vv.height) || window.innerHeight || document.documentElement.clientHeight || 0;
+      var threshold = Math.max(vh * 1.05, window.innerHeight * 0.9);
+      var show = r.top < threshold;
       down.classList.toggle('lasers-down--visible', show);
     }
 
@@ -1971,6 +2007,7 @@
     });
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', scheduleLaserDocHeight, { passive: true });
+      window.visualViewport.addEventListener('scroll', updateLasersDownVisibility, { passive: true });
     }
     window.addEventListener('scroll', function () {
       updateLasersDownVisibility();
