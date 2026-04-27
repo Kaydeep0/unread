@@ -11,6 +11,7 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     :root {
+      --laser-doc-h: 5200px;
       --bg: #050302; --cream: #F2EDE3; --cream-dim: #B8B0A2; --cream-faint: #5C574E;
       --rule: rgba(242, 237, 227, 0.08); --orb: #C8102E; --laser: #FF1A2E;
       --serif: 'Cormorant', Georgia, serif;
@@ -109,9 +110,8 @@
     isolation: isolate;
   }
 
-  /* lasers convergence anchor (hero + closing / conversion slide) */
-  .hero__lasers,
-  .tickets__lasers {
+  /* hero only — hub + five beams (unchanged look) */
+  .hero__lasers {
     position: absolute;
     top: -2vh;
     left: 50%;
@@ -121,10 +121,6 @@
     transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
     will-change: transform;
     z-index: 1;
-  }
-  .tickets__lasers {
-    top: 0;
-    pointer-events: none;
   }
   .laser {
     position: absolute;
@@ -158,8 +154,7 @@
     );
     filter: blur(2px);
   }
-  .hero__lasers::before,
-  .tickets__lasers::before {
+  .hero__lasers::before {
     content: '';
     position: absolute;
     top: -8px; left: -50px;
@@ -183,6 +178,67 @@
     71% { opacity: 0.55; }
     72% { opacity: 0.92; }
   }
+
+  /* bridge → closing: two long beams from viewport top, no hub (hero keeps the only point) */
+  .lasers-down {
+    position: fixed;
+    top: -2vh;
+    left: 50%;
+    width: 1px;
+    height: 1px;
+    transform: translateX(-50%);
+    transition: transform 1.4s cubic-bezier(.2,.7,.2,1), opacity 0.5s ease, visibility 0.5s;
+    will-change: transform;
+    z-index: 6;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .lasers-down.lasers-down--visible {
+    opacity: 0.24;
+    visibility: visible;
+  }
+  .lasers-down__beam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5px;
+    height: var(--laser-doc-h, 5200px);
+    transform-origin: top center;
+    filter: blur(0.45px);
+    animation: none;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 5%,
+      rgba(255, 26, 46, 0.5) 11%,
+      rgba(255, 26, 46, 0.32) 22%,
+      rgba(200, 16, 46, 0.16) 40%,
+      rgba(200, 16, 46, 0.07) 58%,
+      rgba(200, 16, 46, 0.025) 76%,
+      transparent 100%
+    );
+  }
+  .lasers-down__beam::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -3px;
+    width: 7px;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 7%,
+      rgba(255, 26, 46, 0.18) 15%,
+      rgba(200, 16, 46, 0.07) 34%,
+      transparent 72%
+    );
+    filter: blur(2px);
+  }
+  .lasers-down__beam:nth-child(1) { transform: rotate(-32deg); }
+  .lasers-down__beam:nth-child(2) { transform: rotate(32deg); }
 
   /* fog */
   .hero__fog {
@@ -321,6 +377,7 @@
     .hero__fog::before,
     .hero__fog::after,
     .hero__fog-mid { animation: none !important; }
+    .lasers-down.lasers-down--visible { opacity: 0.12; }
   }
 
   /* =========================================================
@@ -1551,6 +1608,11 @@
     <span class="topbar-meta">round 01</span>
   </nav>
 
+  <div class="lasers-down" id="lasers-down" aria-hidden="true">
+    <div class="lasers-down__beam"></div>
+    <div class="lasers-down__beam"></div>
+  </div>
+
   <section class="hero" aria-label="unread">
     <div class="hero__lasers" id="lasers">
       <div class="laser"></div>
@@ -1677,7 +1739,7 @@
     </div>
   </section>
 
-  <section class="bridge">
+  <section class="bridge" id="bridge">
     <div class="bridge-bg"></div>
     <div class="grain-fine"></div>
     <div class="grain-coarse"></div>
@@ -1689,13 +1751,6 @@
 
   <section class="tickets-section">
     <div class="tickets-bg"></div>
-    <div class="tickets__lasers" id="tickets-lasers" aria-hidden="true">
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-      <div class="laser"></div>
-    </div>
     <div class="grain-fine"></div>
     <div class="grain-coarse"></div>
     <div class="tickets tickets--conversion">
@@ -1740,30 +1795,58 @@
 
 <script>
   (function () {
+    function setLaserDocHeight() {
+      var el = document.documentElement;
+      var b = document.body;
+      var h = el.scrollHeight;
+      if (b) h = Math.max(h, b.scrollHeight);
+      h = Math.max(h, window.innerHeight * 2);
+      el.style.setProperty('--laser-doc-h', h + 'px');
+    }
+
+    function updateLasersDownVisibility() {
+      var bridge = document.getElementById('bridge');
+      var down = document.getElementById('lasers-down');
+      if (!bridge || !down) return;
+      var r = bridge.getBoundingClientRect();
+      var show = r.top < window.innerHeight * 0.92;
+      down.classList.toggle('lasers-down--visible', show);
+    }
+
     var laserRoots = [
       document.getElementById('lasers'),
-      document.getElementById('tickets-lasers')
+      document.getElementById('lasers-down')
     ].filter(Boolean);
-    if (!laserRoots.length) return;
-    var targetX = 0, targetY = 0, currentX = 0, currentY = 0;
-    window.addEventListener('mousemove', function (e) {
-      var nx = (e.clientX / window.innerWidth) * 2 - 1;
-      var ny = (e.clientY / window.innerHeight) * 2 - 1;
-      targetX = nx * 14;
-      targetY = ny * 6;
-    }, { passive: true });
-    function tick() {
-      currentX += (targetX - currentX) * 0.04;
-      currentY += (targetY - currentY) * 0.04;
-      var t =
-        'translateX(calc(-50% + ' + currentX.toFixed(2) + 'px)) ' +
-        'translateY(' + currentY.toFixed(2) + 'px)';
-      laserRoots.forEach(function (el) {
-        el.style.transform = t;
-      });
-      requestAnimationFrame(tick);
+    if (laserRoots.length) {
+      var targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+      window.addEventListener('mousemove', function (e) {
+        var nx = (e.clientX / window.innerWidth) * 2 - 1;
+        var ny = (e.clientY / window.innerHeight) * 2 - 1;
+        targetX = nx * 14;
+        targetY = ny * 6;
+      }, { passive: true });
+      function tick() {
+        currentX += (targetX - currentX) * 0.04;
+        currentY += (targetY - currentY) * 0.04;
+        var t =
+          'translateX(calc(-50% + ' + currentX.toFixed(2) + 'px)) ' +
+          'translateY(' + currentY.toFixed(2) + 'px)';
+        laserRoots.forEach(function (el) {
+          el.style.transform = t;
+        });
+        requestAnimationFrame(tick);
+      }
+      tick();
     }
-    tick();
+
+    setLaserDocHeight();
+    window.addEventListener('resize', function () {
+      setLaserDocHeight();
+      updateLasersDownVisibility();
+    }, { passive: true });
+    window.addEventListener('load', setLaserDocHeight, { passive: true });
+    window.addEventListener('scroll', updateLasersDownVisibility, { passive: true });
+    updateLasersDownVisibility();
   })();
 </script>
 <script>
