@@ -109,8 +109,9 @@
     isolation: isolate;
   }
 
-  /* lasers convergence anchor */
-  .hero__lasers {
+  /* lasers convergence anchor (hero + closing / conversion slide) */
+  .hero__lasers,
+  .tickets__lasers {
     position: absolute;
     top: -2vh;
     left: 50%;
@@ -120,6 +121,10 @@
     transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
     will-change: transform;
     z-index: 1;
+  }
+  .tickets__lasers {
+    top: 0;
+    pointer-events: none;
   }
   .laser {
     position: absolute;
@@ -153,7 +158,8 @@
     );
     filter: blur(2px);
   }
-  .hero__lasers::before {
+  .hero__lasers::before,
+  .tickets__lasers::before {
     content: '';
     position: absolute;
     top: -8px; left: -50px;
@@ -1443,6 +1449,59 @@
     .reserve-btn:hover::before { transform: translateY(0); }
     .tickets-fineprint { font-family: var(--sans); font-weight: 300; font-size: 10px; line-height: 1.7; color: var(--cream-faint); margin-top: 36px; max-width: 36ch; margin-left: auto; margin-right: auto; letter-spacing: 0.02em; }
 
+    .tickets--conversion .tickets-head { margin-bottom: 0; }
+    .tickets-art {
+      margin: 8px auto 0;
+      max-width: 240px;
+      width: 72%;
+    }
+    .tickets-art__img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.55);
+    }
+
+    @media (max-width: 767px) {
+      .tickets--conversion {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 22px;
+      }
+      .tickets-head { order: 1; }
+      .cta-stack {
+        order: 2;
+        width: 100%;
+        max-width: 100%;
+        align-items: stretch;
+        gap: 14px;
+      }
+      .tickets-art { order: 3; margin-top: 0; max-width: min(240px, 58vw); }
+      .tickets-venue { order: 4; }
+      .tickets-fineprint { order: 5; margin-top: 0; }
+      .tickets--conversion .venue-line-sub { margin-bottom: 0; }
+      .reserve-btn {
+        display: block;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        padding: 1.05rem 20px;
+        min-height: 48px;
+        line-height: 1.25;
+        text-align: center;
+      }
+      .share-event-btn {
+        width: 100%;
+        max-width: none;
+        justify-content: center;
+        min-height: 48px;
+        box-sizing: border-box;
+        padding-block: 14px;
+      }
+    }
+
     footer { padding: 60px 20px 56px; max-width: 720px; margin: 0 auto; text-align: center; border-top: 1px solid var(--rule); }
     .social-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 14px; flex-wrap: wrap; }
     .social-links a { font-family: var(--sans); font-weight: 300; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; transition: color 0.3s ease; }
@@ -1475,6 +1534,7 @@
       .ticket-tier-desc { font-size: 15px; }
       .reserve-btn { font-size: 22px; padding: 22px 64px; }
       .tickets-fineprint { font-size: 11px; }
+      .tickets-art { max-width: 280px; width: 78%; }
       footer { padding: 80px 24px 64px; }
       .social-links { gap: 40px; margin-bottom: 16px; }
       .social-links a { font-size: 11px; }
@@ -1629,19 +1689,34 @@
 
   <section class="tickets-section">
     <div class="tickets-bg"></div>
+    <div class="tickets__lasers" id="tickets-lasers" aria-hidden="true">
+      <div class="laser"></div>
+      <div class="laser"></div>
+      <div class="laser"></div>
+      <div class="laser"></div>
+      <div class="laser"></div>
+    </div>
     <div class="grain-fine"></div>
     <div class="grain-coarse"></div>
-    <div class="tickets">
-      <div class="tickets-label">round 01</div>
-      <h2 class="tickets-title">may 16. san francisco.</h2>
-      <p class="tickets-meta">a saturday — doors at 8</p>
+    <div class="tickets tickets--conversion">
+      <div class="tickets-head">
+        <div class="tickets-label">round 01</div>
+        <h2 class="tickets-title">may 16. san francisco.</h2>
+        <p class="tickets-meta">a saturday — doors at 8</p>
+      </div>
 
-      <p class="venue-line">the room we want is <em>linden room</em>, hayes valley.</p>
-      <p class="venue-line-sub">we're in conversation. nothing's signed yet.</p>
+      <div class="tickets-venue">
+        <p class="venue-line">the room we want is <em>linden room</em>, hayes valley.</p>
+        <p class="venue-line-sub">we're in conversation. nothing's signed yet.</p>
+      </div>
+
+      <figure class="tickets-art">
+        <img class="tickets-art__img" src="assets/carter-iii-cover.jpg" alt="Lil Wayne — Tha Carter III (album cover)" width="500" height="500" loading="lazy" decoding="async" />
+      </figure>
 
       <div class="cta-stack">
         <a href="mailto:list@unread.sf?subject=add%20me%20to%20the%20list" class="reserve-btn">join the list</a>
-        <button class="share-event-btn" onclick="shareEvent(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share the night</span></button>
+        <button type="button" class="share-event-btn" onclick="shareEvent(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><span>share the night</span></button>
       </div>
 
       <p class="tickets-fineprint">the address goes out 48 hours before doors. tickets open one week before that. the list opens now.</p>
@@ -1665,8 +1740,11 @@
 
 <script>
   (function () {
-    var lasers = document.getElementById('lasers');
-    if (!lasers) return;
+    var laserRoots = [
+      document.getElementById('lasers'),
+      document.getElementById('tickets-lasers')
+    ].filter(Boolean);
+    if (!laserRoots.length) return;
     var targetX = 0, targetY = 0, currentX = 0, currentY = 0;
     window.addEventListener('mousemove', function (e) {
       var nx = (e.clientX / window.innerWidth) * 2 - 1;
@@ -1677,9 +1755,12 @@
     function tick() {
       currentX += (targetX - currentX) * 0.04;
       currentY += (targetY - currentY) * 0.04;
-      lasers.style.transform =
+      var t =
         'translateX(calc(-50% + ' + currentX.toFixed(2) + 'px)) ' +
         'translateY(' + currentY.toFixed(2) + 'px)';
+      laserRoots.forEach(function (el) {
+        el.style.transform = t;
+      });
       requestAnimationFrame(tick);
     }
     tick();
