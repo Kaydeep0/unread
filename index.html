@@ -11,7 +11,7 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     :root {
-      --laser-doc-h: 5200px;
+      --laser-doc-h: 7200px;
       --bg: #050302; --cream: #F2EDE3; --cream-dim: #B8B0A2; --cream-faint: #5C574E;
       --rule: rgba(242, 237, 227, 0.08); --orb: #C8102E; --laser: #FF1A2E;
       --serif: 'Cormorant', Georgia, serif;
@@ -204,7 +204,8 @@
     top: 0;
     left: 0;
     width: 1.5px;
-    height: var(--laser-doc-h, 5200px);
+    /* max(): mobile Safari can under-report scrollHeight early; 32° beams need extra reach */
+    height: max(var(--laser-doc-h, 7200px), 320vh, 320dvh);
     transform-origin: top center;
     filter: blur(0.45px);
     animation: none;
@@ -1798,10 +1799,23 @@
     function setLaserDocHeight() {
       var el = document.documentElement;
       var b = document.body;
-      var h = el.scrollHeight;
-      if (b) h = Math.max(h, b.scrollHeight);
-      h = Math.max(h, window.innerHeight * 2);
+      var sh = el.scrollHeight;
+      if (b) sh = Math.max(sh, b.scrollHeight);
+      var inner = window.innerHeight || 0;
+      var vv = window.visualViewport && window.visualViewport.height;
+      var vh = Math.max(inner, vv || 0);
+      // generous floor + ~1/cos(32°) so angled beams still read to the footer on long mobile scrolls
+      var h = Math.ceil(Math.max(sh, vh * 2.5) * 1.22);
       el.style.setProperty('--laser-doc-h', h + 'px');
+    }
+
+    var laserDocHeightTimer = null;
+    function scheduleLaserDocHeight() {
+      if (laserDocHeightTimer) return;
+      laserDocHeightTimer = setTimeout(function () {
+        laserDocHeightTimer = null;
+        setLaserDocHeight();
+      }, 120);
     }
 
     function updateLasersDownVisibility() {
@@ -1844,8 +1858,24 @@
       setLaserDocHeight();
       updateLasersDownVisibility();
     }, { passive: true });
-    window.addEventListener('load', setLaserDocHeight, { passive: true });
-    window.addEventListener('scroll', updateLasersDownVisibility, { passive: true });
+    window.addEventListener('load', function () {
+      setLaserDocHeight();
+      requestAnimationFrame(function () {
+        setLaserDocHeight();
+        requestAnimationFrame(setLaserDocHeight);
+      });
+    }, { passive: true });
+    window.addEventListener('orientationchange', scheduleLaserDocHeight, { passive: true });
+    window.addEventListener('pageshow', function () {
+      scheduleLaserDocHeight();
+    });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', scheduleLaserDocHeight, { passive: true });
+    }
+    window.addEventListener('scroll', function () {
+      updateLasersDownVisibility();
+      scheduleLaserDocHeight();
+    }, { passive: true });
     updateLasersDownVisibility();
   })();
 </script>
