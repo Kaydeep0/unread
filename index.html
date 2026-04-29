@@ -1298,6 +1298,7 @@
       min-height: 600px;
       /* starburst sits under the stacked album */
       background-position: center, center, center, center, center, center, center, 52% 74%;
+      box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.62);
     }
     .interlude__intro {
       padding-top: clamp(5rem, 12vh, 7rem);
@@ -1378,7 +1379,8 @@
     .album__track-time { font-size: 10px; letter-spacing: 0.14em; }
     .pile { flex: 1; min-height: 0; padding: 0; }
     .album__wordmark { font-size: 18px; top: 3.5%; left: 5%; }
-    .album__volume { font-size: 8px; top: 5%; right: 5%; letter-spacing: 0.24em; }
+    /* clear decorative line / rim behind “vol.” on the stacked mobile poster */
+    .album__volume { font-size: 8px; top: 9.25%; right: 5%; letter-spacing: 0.24em; }
     .album__note {
       font-size: 16px;
       bottom: 11%;
@@ -1617,11 +1619,89 @@
         color: rgba(242, 237, 227, 0.68);
         border-color: rgba(242, 237, 227, 0.28);
       }
+
+      /* Narrow viewports: deeper blacks + edge falloff (less flat brown mid-tone) */
+      :root {
+        --bg: #010101;
+        --ink-hero: #020203;
+        --ink-interlude: #010101;
+      }
+      .hero {
+        background: linear-gradient(
+          to bottom,
+          #000000 0%,
+          var(--ink-hero) 22%,
+          var(--ink-hero) 58%,
+          #010101 86%,
+          var(--ink-interlude) 100%
+        );
+      }
+      .section-vignette {
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.9) 74%,
+          #000000 100%
+        );
+      }
+      .tickets-bg {
+        background:
+          radial-gradient(ellipse at 50% 50%, rgba(150, 80, 40, 0.16) 0%, rgba(50, 28, 14, 0.06) 44%, transparent 80%),
+          linear-gradient(180deg, #0c0604 0%, #020201 55%, #000000 100%);
+      }
+
+      .act-1 .section-bg-img {
+        opacity: 0.82;
+        filter: contrast(1.05) saturate(0.88) brightness(0.58);
+      }
+
+      /* Footer: keep one horizontal row like desktop (no stacked platform names) */
+      footer .social-links {
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: clamp(10px, 3.2vw, 24px);
+        padding-inline: 6px;
+      }
+      footer .social-links a {
+        font-size: clamp(8px, 2.4vw, 10px);
+        letter-spacing: clamp(0.15em, 0.9vw, 0.28em);
+      }
+      footer .handles {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        column-gap: 8px;
+        row-gap: 4px;
+        line-height: 1.35;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        padding-inline: 10px;
+      }
     }
 
     footer { padding: 60px 20px 56px; max-width: 720px; margin: 0 auto; text-align: center; border-top: 1px solid var(--rule); }
-    .social-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 14px; flex-wrap: wrap; }
-    .social-links a { font-family: var(--sans); font-weight: 300; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--cream-dim); text-decoration: none; transition: color 0.3s ease; }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .social-links a {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
     .social-links a:hover { color: var(--cream); }
     .handles {
       font-family: var(--sans); font-weight: 300; font-size: 9px;
